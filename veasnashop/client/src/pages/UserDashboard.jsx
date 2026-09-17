@@ -25,7 +25,7 @@ const statusCls = {
 
 export default function UserDashboard() {
   const [active, setActive] = useState("overview");
-  const { user, token, refreshUser } = useAuth();
+  const { user, token, logout, refreshUser } = useAuth();
   const [orders, setOrders] = useState([]);
   const [dashboard, setDashboard] = useState(null);
   const [wishlist, setWishlist] = useState([]);
@@ -564,11 +564,24 @@ export default function UserDashboard() {
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10">
       <div className="flex flex-col w-full">
-        <div className="mb-8">
-          <h1 className="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">Welcome back, {displayName.split(" ")[0]}</h1>
-          <p className="font-body-md text-body-md text-on-surface-variant mt-1">
-            Your sanctuary, orders, and rituals — all in one calm place.
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <h1 className="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">Welcome back, {displayName.split(" ")[0]}</h1>
+            <p className="font-body-md text-body-md text-on-surface-variant mt-1">
+              Your sanctuary, orders, and rituals — all in one calm place.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              logout();
+              showToast("Signed out");
+            }}
+            className="px-4 py-2.5 rounded-xl bg-surface-container-low text-on-surface font-label-md text-label-md font-semibold hover:bg-error-container hover:text-error transition-all flex items-center gap-2 shrink-0 cursor-pointer shadow-xs"
+          >
+            <Icon name="logout" className="text-[18px]" />
+            <span>Sign Out</span>
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

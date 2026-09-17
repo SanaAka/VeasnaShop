@@ -52,7 +52,7 @@ function SidebarLink({ to, label, icon, badge, end, external, onClick }) {
 }
 
 export default function AdminLayout() {
-  const { user, token } = useAuth();
+  const { user, token, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   if (!token) return <Navigate to="/login" replace />;
@@ -140,13 +140,16 @@ export default function AdminLayout() {
                 </p>
               </div>
             </div>
-            <Link
-              to="/"
-              title="Back to Store"
-              className="p-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors flex items-center justify-center"
+            <button
+              type="button"
+              title="Sign Out"
+              onClick={() => {
+                logout();
+              }}
+              className="p-space-xs rounded-lg text-on-surface-variant hover:bg-error-container hover:text-error transition-colors flex items-center justify-center cursor-pointer"
             >
               <Icon name="logout" className="text-[20px]" />
-            </Link>
+            </button>
           </div>
         </div>
       </aside>

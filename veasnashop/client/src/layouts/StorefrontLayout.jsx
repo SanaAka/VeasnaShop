@@ -12,7 +12,7 @@ const navLinks = [
 ];
 
 export default function StorefrontLayout() {
-  const { user, token } = useAuth();
+  const { user, token, logout } = useAuth();
   const accountPath = token ? (user?.role === "admin" ? "/admin" : "/dashboard") : "/login";
   const nameParts = (user?.name || "").split(/\s+/).filter(Boolean);
   const initials = (nameParts[0]?.[0] || "") + (nameParts[1]?.[0] || "");
@@ -76,14 +76,27 @@ export default function StorefrontLayout() {
               </form>
             </div>
             {token ? (
-              <Link
-                to={accountPath}
-                aria-label={user?.role === "admin" ? "Admin" : "Dashboard"}
-                className="hidden md:flex items-center gap-2 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
-              >
-                <Icon name={user?.role === "admin" ? "admin_panel_settings" : "dashboard"} className="text-[18px]" />
-                {user?.role === "admin" ? "Admin" : "Dashboard"}
-              </Link>
+              <div className="hidden md:flex items-center gap-3">
+                <Link
+                  to={accountPath}
+                  aria-label={user?.role === "admin" ? "Admin" : "Dashboard"}
+                  className="flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
+                >
+                  <Icon name={user?.role === "admin" ? "admin_panel_settings" : "dashboard"} className="text-[18px]" />
+                  {user?.role === "admin" ? "Admin" : "Dashboard"}
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    navigate("/login");
+                  }}
+                  title="Sign Out"
+                  className="p-1.5 rounded-full text-on-surface-variant hover:text-error hover:bg-error-container/20 transition-colors cursor-pointer"
+                >
+                  <Icon name="logout" className="text-[18px]" />
+                </button>
+              </div>
             ) : (
               <Link
                 to="/login"
